@@ -2,6 +2,7 @@
  
 var gulp = require('gulp');
 var sass = require('gulp-sass');
+var jscs = require('gulp-jscs');
 var jasmineBrowser = require('gulp-jasmine-browser');
 var browserSync = require('browser-sync').create();
  
@@ -28,4 +29,10 @@ gulp.task('serve', ['sass'], function() {
 
     gulp.watch('scss/*.scss', ['sass']);
     gulp.watch(['*.html', '*.css', '*.js']).on('change', browserSync.reload);
+});
+
+gulp.task('jscs', function() {
+    return gulp.src('./c3.jquery.extension.js')
+        .pipe(jscs())
+        .pipe(jscs.reporter());
 });

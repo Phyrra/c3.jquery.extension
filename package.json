@@ -5,15 +5,17 @@
   "private": true,
   "dependencies": {},
   "devDependencies": {
-    "bower": "^1.5.3",
-    "browser-sync": "^2.9.8",
-    "gulp": "^3.9.0",
-    "gulp-jasmine-browser": "^0.2.3",
-    "gulp-sass": "^2.0.4",
-    "phantomjs": "^1.9.18"
+    "bower": "^1.7.9",
+    "browser-sync": "^2.13.0",
+    "gulp": "^3.9.1",
+    "gulp-jasmine-browser": "^1.4.0",
+    "gulp-util": "^3.0.7",
+    "gulp-sass": "^2.3.2",
+    "gulp-jscs": "^4.0.0",
+    "phantomjs-prebuilt": "^2.1.7"
   },
   "scripts": {
-    "test": "gulp test",
+    "test": "gulp jscs && gulp test",
     "install": "bower --config.interactive=false install && gulp sass"
   },
   "author": "Sandro Maggi",
