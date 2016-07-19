@@ -1,0 +1,219 @@
+<html>
+	<head>
+		<script charset="utf-8" src="bower_components/d3/d3.js"></script>
+		
+		<link rel="stylesheet" type="text/css" href="bower_components/c3/c3.css" />
+		<script charset="utf-8" src="bower_components/c3/c3.js"></script>
+		
+		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+		<script src="c3.jquery.extension.js"></script>
+		
+		<script>		
+			var gatherGroupData = function(data, name, ids) {
+				var row = [name];
+				
+				for (var i = 0; i < ids.length; ++i) {
+					var id = ids[i];
+					var set = data.find(function(d) { return d[0] === id; });
+					
+					if (set && set.length > 1) {
+						for (var j = 1; j < set.length; ++j) {
+							if (row.length <= j) {
+								row.push(set[j]);
+							} else {
+								row[j] += set[j];
+							}
+						}
+					}
+				}
+				
+				return row;
+			};
+			
+			var getIdsFromGroups = function(groups) {
+				return groups.map(function(g) { return g.name; });
+			};
+			
+			var getSetsFromGroup = function(data, ids) {
+				return data.filter(function(d) { return ids.contains(d[0]); });
+			};
+			
+			var getDataFromGroups = function(data, groups) {
+				return groups.map(function(g) { return gatherGroupData(data, g.name, g.ids); });
+			};
+			
+			var drillDown = function(drilldown, data, parent, groups) {
+				for (var i = 0; i < groups.length; ++i) {
+					var group = groups[i];
+					
+					if (group.hasOwnProperty('groups')) {
+						drilldown[group.name] = {
+							ids: getIdsFromGroups(group.groups),
+							data: getDataFromGroups(data, group.groups),
+							parent: parent
+						};
+						
+						drilldown = drillDown(drilldown, data, group.name, group.groups);
+					} else {
+						if (group.ids.length > 1) {
+							drilldown[group.name] = {
+								ids: group.ids,
+								data: getSetsFromGroup(data, group.ids),
+								parent: parent
+							};
+						}
+					}
+				}
+				
+				return drilldown;
+			};
+			
+			var evaluateDrilldown = function(data, groups) {
+				if (typeof groups === 'undefined' || groups.length === 0) {
+					return {
+						'0': {
+							ids: data.map(function(d) { return d[0]; }),
+							data: data,
+							parent: null
+						}
+					}
+				} else {
+					return drillDown({}, data, null, [ { name: '0', groups: groups } ]);
+				}
+			};
+			
+			$(document).ready(function() {
+				var data = [
+					['A', 1],
+					['B', 2],
+					['C', 3],
+					['D', 4],
+					['E', 5],
+					['F', 6],
+					['G', 7]
+				];
+				
+				var groups = [
+					{
+						name: 'A + B + C + D',
+						ids: ['A', 'B', 'C', 'D'],
+						groups: [
+							{
+								name: 'A + B',
+								ids: ['A', 'B']
+							},
+							{
+								name: 'C + D',
+								ids: ['C', 'D']
+							}
+						]
+					},
+					{
+						name: 'E + F',
+						ids: ['E', 'F']
+					},
+					{
+						name: 'G',
+						ids: ['G']
+					}
+				];
+				
+				var currentLevel = '0';
+				var levels = evaluateDrilldown(data, groups);
+				console.log(levels);
+				
+				/*
+				var levels = {
+					'0': {
+						ids: ['A + B + C + D', 'E + F'], // getIdsFromGroups(groups)
+						data: [ // for each group in groups
+							['A + B + C + D', 1],
+							['E + F', 2]
+						],
+						parent: null
+					},
+					'A + B + C + D': {
+						ids: ['A + B', 'C + D'],
+						data: [
+							['A + B', 3],
+							['C + D', 4]
+						],
+						parent: '0'
+					},
+					'A + B': {
+						ids: ['A', 'B'],
+						data: [
+							['A', 5],
+							['B', 6]
+						],
+						parent: 'A + B + C + D'
+					},
+					'C + D': {
+						ids: ['C', 'D'],
+						data: [
+							['C', 7],
+							['D', 8]
+						],
+						parent: 'A + B + C + D'
+					},
+					'E + F': {
+						ids: ['E', 'F'],
+						data: [
+							['E', 9],
+							['F', 10]
+						],
+						parent: '0'
+					}
+				};
+				*/
+				
+				var loadLevel = function(id) {
+					if (levels.hasOwnProperty(id)) {
+						chart.load({
+							columns: levels[id].data
+						});
+						
+						chart.unload({
+							ids: levels[currentLevel].ids
+						});
+						
+						currentLevel = id;
+						
+						if (id === '0') {
+							$('#step-back').prop('disabled', true);
+						} else {
+							$('#step-back').removeProp('disabled');
+						}
+					}
+				};
+				
+				var chart = c3.generate({
+					bindTo: '#chart',
+					data: {
+						type: 'pie',
+						columns: levels[currentLevel].data,
+						onclick: function(d, i) {
+							loadLevel(d.id);
+						}
+					}
+				});
+				
+				$('#chart').append(
+					$('<button id="step-back" disabled>Step back</button>').on('click', function() {
+						loadLevel(levels[currentLevel].parent);
+					})
+				);
+			});
+		</script>
+		
+		<style>
+			html, body {
+				margin: 0;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<div id="chart" style="text-align: center;"></div>
+	</body>
+</html>

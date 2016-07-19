@@ -1,0 +1,188 @@
+<html>
+	<head>
+		<script charset="utf-8" src="bower_components/d3/d3.min.js"></script>
+		
+		<link rel="stylesheet" type="text/css" href="bower_components/c3/c3.css" />
+		<script charset="utf-8" src="bower_components/c3/c3.js"></script>
+		
+		<script src="bower_components/jquery/dist/jquery.min.js"></script>
+		
+		<link rel="stylesheet" type="text/css" href="c3.jquery.extension.css" />
+		<script src="c3.jquery.extension.js"></script>
+		
+		<script>
+			$(document).ready(function() {
+				$chart.configure({ direction: 'x' });
+				
+				$('#t1').chart($chart.LINE);
+				$('#t1').chart($chart.BAR);
+				
+				$('#t2').chart($chart.PIE, $('#t2-pie'));
+				
+				$chart.configure({ direction: 'y', labels: false });
+				$('#t3').chart($chart.PIE, $('#t3-pie'));
+				
+				$chart.configure({ direction: 'x', labels: true });
+				$('#t4').chart($chart.PIE, $('#t4-pie'));
+			});
+		</script>
+		
+		<style>
+			html, body {
+				margin: 0;
+			}
+			
+			.table-chart-group {
+			}
+			
+			.table-chart-group .table-container {
+				display: inline-block;
+				vertical-align: top;
+				width: 500px;
+			}
+			
+			.table-chart-group .chart-container {
+				display: inline-block;
+				max-width: 500px;
+				text-align: center;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<table id="t1" class="alternate">
+			<thead>
+				<tr>
+					<th></th>
+					<th>A</th>
+					<th>B</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				<tr data-group="Group 1">
+					<td>Label 1</td>
+					<td>1</td>
+					<td>2</td>
+				</tr>
+				<tr data-group="Group 1">
+					<td>Label 2</td>
+					<td>3</td>
+					<td>4</td>
+				</tr>
+				<tr data-group="Group 2">
+					<td>Label 3</td>
+					<td>5</td>
+					<td>6</td>
+				</tr>
+				<tr data-group="Group 2">
+					<td>Label 4</td>
+					<td>7</td>
+					<td>8</td>
+				</tr>
+				<tr>
+					<td>Label 5</td>
+					<td>9</td>
+					<td>10</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		<div class="table-chart-group">
+			<div class="table-container">
+				<table id="t2" class="alternate">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<tr>
+							<td>A</td>
+							<td>2</td>
+						</tr>
+						<tr>
+							<td>B</td>
+							<td>5</td>
+						</tr>
+						<tr>
+							<td>C</td>
+							<td>8</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="chart-container">
+				<div id="t2-pie"></div>
+			</div>
+		</div>
+		
+		<div class="table-chart-group">
+			<div class="table-container">
+				<table id="t3" class="alternate">
+					<thead>
+						<tr>
+							<th>A</th>
+							<th>B</th>
+							<th>C</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>1</td>
+							<td>2</td>
+							<td>3</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="chart-container">
+				<div id="t3-pie"></div>
+			</div>
+		</div>
+		
+		<div class="table-chart-group">
+			<div class="table-container">
+				<table id="t4" class="alternate" data-drilldown="true">
+					<thead>
+						<tr>
+							<th>Name</th>
+							<th>Value</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr data-group="A + B + C + D > A + B">
+							<td>A</td>
+							<td>1</td>
+						</tr>
+						<tr data-group="A + B + C + D > A + B">
+							<td>B</td>
+							<td>2</td>
+						</tr>
+						<tr data-group="A + B + C + D > C + D">
+							<td>C</td>
+							<td>3</td>
+						</tr>
+						<tr data-group="A + B + C + D > C + D">
+							<td>D</td>
+							<td>4</td>
+						</tr>
+						<tr data-group="E + F">
+							<td>E</td>
+							<td>5</td>
+						</tr>
+						<tr data-group="E + F">
+							<td>F</td>
+							<td>6</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="chart-container">
+				<div id="t4-pie"></div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "c3.jquery.extension",
+  "version": "0.1.0",
+  "description": "Turn tables into C3 charts",
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {
+    "bower": "^1.5.3",
+    "browser-sync": "^2.9.8",
+    "gulp": "^3.9.0",
+    "gulp-jasmine-browser": "^0.2.3",
+    "gulp-sass": "^2.0.4",
+    "phantomjs": "^1.9.18"
+  },
+  "scripts": {
+    "test": "gulp test",
+    "install": "bower --config.interactive=false install && gulp sass"
+  },
+  "author": "Sandro Maggi",
+  "license": "MIT"
+}

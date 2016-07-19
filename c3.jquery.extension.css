@@ -1,0 +1,54 @@
+/*
+	Color schema
+*/
+/*
+	Library elements
+*/
+button.step-back-button {
+  background-color: #000044;
+  color: white;
+  font-weight: bold;
+  padding: 4px 8px;
+  border: none;
+  box-shadow: none;
+  background-image: none;
+  white-space: nowrap;
+  display: inline-block; }
+
+/*
+	Table beautifications
+*/
+table {
+  border-collapse: collapse; }
+  table thead th, table thead td {
+    background-color: #000044;
+    color: white;
+    font-weight: bold;
+    font-size: bigger;
+    padding: 8px;
+    border-left: 1px solid white;
+    border-right: 1px solid white; }
+  table thead th:first-child, table thead td:first-child {
+    border-left: 1px solid #000044; }
+  table thead th:last-child, table thead td:last-child {
+    border-right: 1px solid #000044; }
+  table tbody td {
+    padding: 4px 8px;
+    text-align: left;
+    vertical-align: top;
+    border: 1px solid black; }
+
+table.alternate tbody tr:nth-child(even) {
+  background-color: white; }
+
+table.alternate tbody tr:nth-child(odd) {
+  background-color: #c0c0c0; }
+
+table.hidden {
+  display: none; }
+
+/*
+	C3 fixes
+*/
+.c3-tooltip tr td.name {
+  white-space: nowrap; }

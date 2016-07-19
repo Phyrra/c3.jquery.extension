@@ -1,0 +1,92 @@
+/*
+	Color schema
+*/
+
+$dark-blue: #000044;
+$middle-blue: #003366;
+$light-blue: #6699cc;
+$grey: #c0c0c0;
+$white: white;
+
+/*
+	Library elements
+*/
+
+button.step-back-button {
+	background-color: $dark-blue;
+	color: $white;
+	
+	font-weight: bold;
+	padding: 4px 8px;
+	
+	border: none;
+	box-shadow: none;
+	background-image: none;
+	white-space: nowrap;
+	display: inline-block;
+}
+
+/*
+	Table beautifications
+*/
+
+table {
+	border-collapse: collapse;
+	
+	thead {
+		th, td {
+			background-color: $dark-blue;
+			color: white;
+			font-weight: bold;
+			font-size: bigger;
+			
+			padding: 8px;
+			
+			border-left: 1px solid $white;
+			border-right: 1px solid $white;
+		}
+		
+		th:first-child, td:first-child {
+			border-left: 1px solid $dark-blue;
+		}
+		
+		th:last-child, td:last-child {
+			border-right: 1px solid $dark-blue;
+		}
+	}
+	
+	tbody {
+		td {
+			padding: 4px 8px;
+			
+			text-align: left;
+			vertical-align: top;
+			
+			border: 1px solid black;
+		}
+	}
+}
+
+table.alternate {
+	tbody {
+		tr:nth-child(even) {
+			background-color: $white;
+		}
+		
+		tr:nth-child(odd) {
+			background-color: $grey;
+		}
+	}
+}
+
+table.hidden {
+	display: none;
+}
+
+/*
+	C3 fixes
+*/
+
+.c3-tooltip tr td.name {
+	white-space: nowrap;
+}
