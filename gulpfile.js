@@ -3,9 +3,9 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var jscs = require('gulp-jscs');
-var jasmineBrowser = require('gulp-jasmine-browser');
 var browserSync = require('browser-sync').create();
- 
+var Server = require('karma').Server;
+
 gulp.task('sass', function () {
   gulp.src('scss/*.scss')
     .pipe(sass().on('error', sass.logError))
@@ -16,10 +16,11 @@ gulp.task('sass:watch', function () {
   gulp.watch('./scss/*.scss', ['sass']);
 });
 
-gulp.task('test', function() {
-	return gulp.src(['bower_components/jquery/dist/jquery.min.js', 'c3.jquery.extension.js', 'specs/*.js'])
-		.pipe(jasmineBrowser.specRunner({ console: true }))
-		.pipe(jasmineBrowser.headless());
+gulp.task('test', function(done) {
+    new Server({
+        configFile: __dirname + '/karma_config.js',
+        singleRun: true
+    }, done).start();
 });
 
 gulp.task('serve', ['sass'], function() {

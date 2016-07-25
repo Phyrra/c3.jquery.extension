@@ -8,11 +8,13 @@
     "bower": "^1.7.9",
     "browser-sync": "^2.13.0",
     "gulp": "^3.9.1",
-    "gulp-jasmine-browser": "^1.4.0",
-    "gulp-util": "^3.0.7",
-    "gulp-sass": "^2.3.2",
     "gulp-jscs": "^4.0.0",
-    "phantomjs-prebuilt": "^2.1.7"
+    "gulp-sass": "^2.3.2",
+    "jasmine-core": "^2.4.1",
+    "karma": "^1.1.1",
+    "karma-coverage": "^1.1.1",
+    "karma-jasmine": "^1.0.2",
+    "karma-phantomjs-launcher": "^1.0.1"
   },
   "scripts": {
     "test": "gulp jscs && gulp test",
