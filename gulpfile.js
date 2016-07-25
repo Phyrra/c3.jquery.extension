@@ -18,7 +18,7 @@ gulp.task('sass:watch', function () {
 
 gulp.task('test', function(done) {
     new Server({
-        configFile: __dirname + '/karma_config.js',
+        configFile: __dirname + '/karma.config.js',
         singleRun: true
     }, done).start();
 });

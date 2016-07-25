@@ -4,10 +4,10 @@ module.exports = function(config) {
 		frameworks: ['jasmine'],
 		files: [
 			'bower_components/jquery/dist/jquery.min.js',
+			'shim.js',
 			'c3.jquery.extension.js',
 			'specs/*.js'
 		],
-		port: 8000,
 		browsers: ['PhantomJS'],
 		autoWatch: false,
 		reporters: ['progress', 'coverage'],
