@@ -100,7 +100,7 @@ Defines the data-evaluation direction. Can be either `x` or `y` and defaults to 
 ##### x #####
 
 |         | X1 | X2 |
-| ------- | -- | -- |
+|---------|----|----|
 | Label 1 | 1  | 2  |
 | Label 2 | 3  | 4  |
 
@@ -109,7 +109,7 @@ Read in x-direction this will give two sets of data, with two positions on the x
 ##### y #####
 
 |    | Label 1 | Label 2 |
-| -- | ------- | ------- |
+|----|---------|---------|
 | X1 | 1       | 3       |
 | X2 | 2       | 4       |
 
@@ -126,14 +126,14 @@ The definition of "label" depends on the evaluation direction.
 The first column of the table will be taken as labels for the set.
 
 |         | X1 | X2 |
-| ------- | -- | -- |
+|---------|----|----|
 | Label 1 | 1  | 2  |
 | Label 2 | 3  | 4  |
 
 For `labels: true` this table will produce a set of labels `[ 'Label 1', 'Label 2' ]`
 
 | X1 | X2 |
-| -- | -- |
+|----|----|
 | 1  | 2  |
 | 3  | 4  |
 
@@ -144,14 +144,14 @@ For `labels: false` this table will generate a set of automated labels `[ '1', '
 The first column of the table will be taken as labels for the x-axis.
 
 |    | Label 1 | Label 2 |
-| -- | ------- | ------- |
+|----|---------|---------|
 | X1 | 1       | 3       |
 | X2 | 2       | 4       |
 
 For `labels: true` this table will produce a set of x-axis labels `[ 'X1', 'X2' ]`
 
 | Label 1 | Label 2 |
-| ------- | ------- |
+|---------|---------|
 | 1       | 3       |
 | 2       | 4       |
 
