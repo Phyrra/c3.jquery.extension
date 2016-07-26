@@ -78,6 +78,72 @@ describe('get data from', function() {
 				expect(data.labels).toEqual(['Label 1', 'Label 2']);
 			});
 		});
+
+		describe('should read color attribute', function() {
+			it('should fill holes with null', function() {
+				var table = $(
+					'<table>' +
+						'<thead>' +
+							'<tr>' +
+								'<th></th>' +
+								'<th>Label 1</th>' +
+							'</tr>' +
+						'</thead>' +
+						'<tbody>' +
+							'<tr data-color="#ff0000">' +
+								'<td>Set 1</td>' +
+								'<td>1</td>' +
+							'</tr>' +
+							'<tr>' +
+								'<td>Set 2</td>' +
+								'<td>2</td>' +
+							'</tr>' +
+						'</tbody>' +
+					'</table>'
+				);
+
+				$chart.configure({ direction: 'x', labels: true });
+
+				var data = table.getTableData();
+
+				expect(data.colors).toEqual([
+					'#ff0000',
+					null
+				]);
+			});
+
+			it('should get all colors', function() {
+				var table = $(
+					'<table>' +
+						'<thead>' +
+							'<tr>' +
+								'<th></th>' +
+								'<th>Label 1</th>' +
+							'</tr>' +
+						'</thead>' +
+						'<tbody>' +
+							'<tr data-color="#ff0000">' +
+								'<td>Set 1</td>' +
+								'<td>1</td>' +
+							'</tr>' +
+							'<tr data-color="#00ff00">' +
+								'<td>Set 2</td>' +
+								'<td>2</td>' +
+							'</tr>' +
+						'</tbody>' +
+					'</table>'
+				);
+
+				$chart.configure({ direction: 'x', labels: true });
+
+				var data = table.getTableData();
+
+				expect(data.colors).toEqual([
+					'#ff0000',
+					'#00ff00'
+				]);
+			});
+		});
 		
 		describe('read group attribute', function() {
 			it('should get groups', function() {
@@ -206,6 +272,68 @@ describe('get data from', function() {
 				);
 				
 				expect(data.labels).toEqual(['1', '2']);
+			});
+		});
+
+		describe('should read color attribute', function() {
+			it('should fill holes with null', function() {
+				var table = $(
+					'<table>' +
+						'<thead>' +
+							'<tr>' +
+								'<th></th>' +
+								'<th data-color="#ff0000">Set 1</th>' +
+								'<th>Set 2</th>' +
+							'</tr>' +
+						'</thead>' +
+						'<tbody>' +
+							'<tr>' +
+								'<td>Label 1</td>' +
+								'<td>1</td>' +
+								'<td>2</td>' +
+							'</tr>' +
+						'</tbody>' +
+					'</table>'
+				);
+
+				$chart.configure({ direction: 'y', labels: true });
+
+				var data = table.getTableData();
+
+				expect(data.colors).toEqual([
+					'#ff0000',
+					null
+				]);
+			});
+
+			it('should get all colors', function() {
+				var table = $(
+					'<table>' +
+						'<thead>' +
+							'<tr>' +
+								'<th></th>' +
+								'<th data-color="#ff0000">Set 1</th>' +
+								'<th data-color="#00ff00">Set 2</th>' +
+							'</tr>' +
+						'</thead>' +
+						'<tbody>' +
+							'<tr>' +
+								'<td>Label 1</td>' +
+								'<td>1</td>' +
+								'<td>2</td>' +
+							'</tr>' +
+						'</tbody>' +
+					'</table>'
+				);
+
+				$chart.configure({ direction: 'y', labels: true });
+
+				var data = table.getTableData();
+
+				expect(data.colors).toEqual([
+					'#ff0000',
+					'#00ff00'
+				]);
 			});
 		});
 		

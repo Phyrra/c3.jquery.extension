@@ -131,6 +131,7 @@
 			var rows = [];
 			var labels = [];
 			var groups = {};
+			var colors = [];
 			
 			table.find('> thead > tr:first-child').each(function() {
 				$(this).find('th, td').each(function(i) {
@@ -195,20 +196,28 @@
 				if (data.hasOwnProperty('group')) {
 					groups[row[0]] = data.group;
 				}
+
+				if (data.hasOwnProperty('color')) {
+					colors.push(data.color);
+				} else {
+					colors.push(null);
+				}
 				
 				rows.push(row);
 			});
-			
+
 			return {
 				data: rows,
 				labels: labels,
-				groups: groups
+				groups: groups,
+				colors: colors
 			};
 		},
 		'y': function(table, config) {
 			var columns = [];
 			var labels = [];
 			var groups = {};
+			var colors = [];
 			
 			table.find('> thead > tr:first-child').each(function() {
 				$(this).find('th, td').each(function(i) {
@@ -232,6 +241,12 @@
 						var data = $(this).data();
 						if (data.hasOwnProperty('group')) {
 							groups[columns[columns.length - 1][0]] = data.group;
+						}
+
+						if (data.hasOwnProperty('color')) {
+							colors.push(data.color);
+						} else {
+							colors.push(null);
 						}
 					}
 				});
@@ -277,7 +292,8 @@
 			return {
 				data: columns,
 				labels: labels,
-				groups: groups
+				groups: groups,
+				colors: colors
 			};
 		}
 	};
@@ -483,7 +499,7 @@
 			
 			// TODO: Decide how grouping should work for line charts
 			var data;
-			if (tableData.groups !== {}) {
+			if (!$.isEmptyObject(tableData.groups)) {
 				var groups = analyzeGroupData(tableData.groups);
 				
 				data = groups.map(
@@ -507,21 +523,23 @@
 			
 			return {
 				columns: data,
-				labels: tableData.labels
+				labels: tableData.labels,
+				colors: tableData.colors
 			};
 		},
 		'bar': function(table) {
 			var tableData = table.getTableData();
 			
 			var groups;
-			if (tableData.groups !== {}) {
+			if (!$.isEmptyObject(tableData.groups)) {
 				groups = groupDataToC3Groups(analyzeGroupData(tableData.groups));
 			}
 			
 			return {
 				columns: tableData.data,
 				labels: tableData.labels,
-				groups: groups
+				groups: groups,
+				colors: tableData.colors
 			};
 		},
 		'pie': function(table, chart) {
@@ -538,7 +556,6 @@
 					columns: levels['0'].data,
 					levels: levels,
 					onclickBuilder: function(chart, levels, container) {
-						console.log(chart, levels, container);
 						return function(d, i) {
 							var id = d.id;
 							
@@ -555,8 +572,8 @@
 					}
 				};
 			}
-			
-			if (tableData.groups !== {}) {
+
+			if (!$.isEmptyObject(tableData.groups)) {
 				var groups = analyzeGroupData(tableData.groups);
 				var levels = getDrilldownLevels(tableData.data, groups);
 				
@@ -564,11 +581,37 @@
 					columns: levels['0'].data
 				};
 			}
-			
+
 			return {
-				columns: tableData.data
+				columns: tableData.data,
+				colors: tableData.colors
 			};
 		}
+	};
+
+	// TODO:
+	//  * what to do with line charts that have groups?
+	//  * what to do with pie charts that have groups?
+	var generateColorsObject = function(columns, colors) {
+		if (!colors || !colors.some(function(color) { return color !== null; })) {
+			return {};
+		}
+
+		if (columns.length !== colors.length) {
+			return {};
+		}
+
+		var cols = {};
+
+		for (var i = 0; i < columns.length; ++i) {
+			cols[columns[i][0]] = colors[i];
+		}
+
+		return cols;
+	};
+
+	var generateId = function() {
+		return 'gen' + new Date().getTime();
 	};
 	
 	/**
@@ -592,12 +635,18 @@
 
 		var destId;
 		if (!container || container.length === 0) {
-			destId = 'gen' + new Date().getTime();
+			destId = generateId();
 			
 			container = $('<div id="' + destId + '" class="graph"></div>');
 			self.after(container);
 		} else {
 			destId = container.attr('id');
+
+			if (!destId) {
+				destId = generateId();
+
+				container.attr('id', destId);
+			}
 		}
 
 		container.empty();
@@ -633,9 +682,12 @@
 				type: type,
 				columns: tableData.columns,
 				groups: tableData.groups,
-				onclick: tableData.hasOwnProperty('levels') ? function(d, e) {
-					loadLevel(d.id);
-				} : function(d, e) { }
+				colors: generateColorsObject(tableData.columns, tableData.colors),
+				onclick: tableData.hasOwnProperty('levels') ?
+					function(d, e) {
+						loadLevel(d.id);
+					} :
+					function(d, e) { }
 			},
 			axis: {
 				x: {
@@ -660,7 +712,8 @@
 		'isFloat': isFloat,
 		'transpose': transpose,
 		'getDrilldownLevels': getDrilldownLevels,
-		'analyzeGroupData': analyzeGroupData
+		'analyzeGroupData': analyzeGroupData,
+		'generateColorsObject': generateColorsObject
 	};
 	
 	window.$chart = {

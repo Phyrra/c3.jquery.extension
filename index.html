@@ -6,7 +6,8 @@
 		<script charset="utf-8" src="bower_components/c3/c3.js"></script>
 		
 		<script src="bower_components/jquery/dist/jquery.min.js"></script>
-		
+		<script src="shim.js"></script>
+
 		<link rel="stylesheet" type="text/css" href="c3.jquery.extension.css" />
 		<script src="c3.jquery.extension.js"></script>
 		
@@ -60,27 +61,27 @@
 			</thead>
 			
 			<tbody>
-				<tr data-group="Group 1">
+				<tr data-group="Group 1" data-color="#ff0000">
 					<td>Label 1</td>
 					<td>1</td>
 					<td>2</td>
 				</tr>
-				<tr data-group="Group 1">
+				<tr data-group="Group 1" data-color="#00ff00">
 					<td>Label 2</td>
 					<td>3</td>
 					<td>4</td>
 				</tr>
-				<tr data-group="Group 2">
+				<tr data-group="Group 2" data-color="#0000ff">
 					<td>Label 3</td>
 					<td>5</td>
 					<td>6</td>
 				</tr>
-				<tr data-group="Group 2">
+				<tr data-group="Group 2" data-color="#ffff00">
 					<td>Label 4</td>
 					<td>7</td>
 					<td>8</td>
 				</tr>
-				<tr>
+				<tr data-color="#ff00ff">
 					<td>Label 5</td>
 					<td>9</td>
 					<td>10</td>
@@ -99,15 +100,15 @@
 					</thead>
 					
 					<tbody>
-						<tr>
+						<tr data-color="#ff0000">
 							<td>A</td>
 							<td>2</td>
 						</tr>
-						<tr>
+						<tr data-color="#00ff00">
 							<td>B</td>
 							<td>5</td>
 						</tr>
-						<tr>
+						<tr data-color="#0000ff">
 							<td>C</td>
 							<td>8</td>
 						</tr>
@@ -124,9 +125,9 @@
 				<table id="t3" class="alternate">
 					<thead>
 						<tr>
-							<th>A</th>
-							<th>B</th>
-							<th>C</th>
+							<th data-color="#ff0000">A</th>
+							<th data-color="#00ff00">B</th>
+							<th data-color="#0000ff">C</th>
 						</tr>
 					</thead>
 					<tbody>

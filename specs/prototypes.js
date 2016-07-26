@@ -6,11 +6,11 @@ describe('check internal prototypes', function() {
 			});
 			
 			it('should match', function() {
-				expect('Hello World'.startsWith('Hello')).toBeTruthy();
+				expect('Hello World'.startsWith('Hello')).toBe(true);
 			});
 			
 			it('should not match', function() {
-				expect('Hello World'.startsWith('World')).toBeFalsy();
+				expect('Hello World'.startsWith('World')).toBe(false);
 			});
 		});
 		
@@ -20,11 +20,11 @@ describe('check internal prototypes', function() {
 			});
 			
 			it('should match', function() {
-				expect('Hello World'.endsWith('World')).toBeTruthy();
+				expect('Hello World'.endsWith('World')).toBe(true);
 			});
 			
 			it('should not match', function() {
-				expect('Hello World'.endsWith('Hello')).toBeFalsy();
+				expect('Hello World'.endsWith('Hello')).toBe(false);
 			});
 		});
 		
@@ -34,11 +34,11 @@ describe('check internal prototypes', function() {
 			});
 			
 			it('should trim', function() {
-				expect(' \n Hello World \n '.trim()).toEqual('Hello World');
+				expect(' \n Hello World \n '.trim()).toBe('Hello World');
 			});
 			
 			it('should not do anything', function() {
-				expect('Hello World'.trim()).toEqual('Hello World');
+				expect('Hello World'.trim()).toBe('Hello World');
 			});
 		});
 		
@@ -48,11 +48,11 @@ describe('check internal prototypes', function() {
 			});
 			
 			it('should find', function() {
-				expect('Hello World'.contains('o W')).toBeTruthy();
+				expect('Hello World'.contains('o W')).toBe(true);
 			});
 			
 			it('should not find', function() {
-				expect('Hello World'.contains('ow')).toBeFalsy();
+				expect('Hello World'.contains('ow')).toBe(false);
 			});
 		});
 	});
@@ -62,19 +62,13 @@ describe('check internal prototypes', function() {
 			it('should exist', function() {
 				expect([].find).toBeDefined();
 			});
-		
-			/*
-			it('should return undefined if there is no callback', function() {
-				expect([1, 2, 3].find()).toEqual(undefined);
-			});
-			*/
 			
 			it('should find element', function() {
-				expect([1, 2, 3].find(function(el) { return el > 1; })).toEqual(2);
+				expect([1, 2, 3].find(function(el) { return el > 1; })).toBe(2);
 			});
 			
 			it('should return null when not found', function() {
-				expect([1, 2, 3].find(function(el) { return false; })).toEqual(undefined);
+				expect([1, 2, 3].find(function(el) { return false; })).toBeUndefined();
 			});
 		});
 		
@@ -84,11 +78,11 @@ describe('check internal prototypes', function() {
 			});
 			
 			it('should join with nothing', function() {
-				expect([1, 2, 3].join()).toEqual('1,2,3');
+				expect([1, 2, 3].join()).toBe('1,2,3');
 			});
 			
 			it('should join with glue', function() {
-				expect([1, 2, 3].join(', ')).toEqual('1, 2, 3');
+				expect([1, 2, 3].join(', ')).toBe('1, 2, 3');
 			});
 		});
 		
@@ -96,12 +90,6 @@ describe('check internal prototypes', function() {
 			it('should exist', function() {
 				expect([].map).toBeDefined();
 			});
-			
-			/*
-			it('should not do anything', function() {
-				expect([1, 2, 3].map()).toEqual([1, 2, 3]);
-			});
-			*/
 			
 			it('should map elements', function() {
 				expect([1, 2, 3].map(function(el) { return el * 2; })).toEqual([2, 4, 6]);
@@ -112,12 +100,6 @@ describe('check internal prototypes', function() {
 			it('should exist', function() {
 				expect([].filter).toBeDefined();
 			});
-			
-			/*
-			it('should not do anything', function() {
-				expect([1, 2, 3].filter()).toEqual([1, 2, 3]);
-			});
-			*/
 			
 			it('should find a single element', function() {
 				expect([1, 2, 3].filter(function(el) { return el === 2; })).toEqual([2]);
@@ -134,15 +116,29 @@ describe('check internal prototypes', function() {
 			});
 			
 			it('should contain element', function() {
-				expect([1, 2, 3].contains(2)).toBeTruthy();
+				expect([1, 2, 3].contains(2)).toBe(true);
 			});
 			
 			it('should not contain element', function() {
-				expect([1, 2, 3].contains(4)).toBeFalsy();
+				expect([1, 2, 3].contains(4)).toBe(false);
 			});
 			
 			it('should not contain undefined', function() {
-				expect([1, 2, 3].contains()).toBeFalsy();
+				expect([1, 2, 3].contains()).toBe(false);
+			});
+		});
+
+		describe('some', function() {
+			it('should exist', function() {
+				expect([].some).toBeDefined();
+			});
+
+			it('should return true if one matches', function() {
+				expect([1, 2, 3].some(function(el) { return el % 2 === 0; })).toBe(true);
+			});
+
+			it('should return false if none matches', function() {
+				expect([1, 2, 3].some(function(el) { return el > 10; })).toBe(false);
 			});
 		});
 	});

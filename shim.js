@@ -100,4 +100,22 @@
 			return this.indexOf(element) !== -1;
 		};
 	}
+
+	if (typeof Array.prototype.some !== 'function') {
+		Array.prototype.some = function(callback) {
+			if (typeof callback !== 'function') {
+				return this;
+			}
+
+			for (var i = 0; i < this.length; ++i) {
+				var el = this[i];
+
+				if (callback(el)) {
+					return true;
+				}
+			}
+
+			return false;
+		}
+	}
 })();
